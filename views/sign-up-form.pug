@@ -16,6 +16,12 @@ block content
     div.form-group
       label(for='password') Password:
       input#password.form-control(type='password', placeholder='Password' name='password' required='true' value=(undefined===user ? '' : user.password) )
+    div.form-group
+      label(for='passwordConfirmation') Confirm Password:
+      input#passwordConfirmation.form-control(type='password', placeholder='Password' name='passwordConfirmation' required='true' value=(undefined===user ? '' : user.password) )
+    div.form-group
+      label(for='admin') Admin:
+      input.checkbox-input(type='checkbox', name='admin', id="admin")
     button.btn.btn-primary(type='submit') Submit
 
   if errors

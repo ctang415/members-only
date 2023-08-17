@@ -3,4 +3,5 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  button(a href="/board/messages") ENTER
+  a(href="/board/messages") 
+    button(type=button) ENTER

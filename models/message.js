@@ -6,14 +6,14 @@ const Schema = mongoose.Schema
 const MessageSchema = new Schema (
     {
         poster: { type: Schema.Types.ObjectId, ref: "User"},
-        title: { type: String, required: true},
+        title: { type: String, minLength: 2, required: true},
         timestamp: { type: Date, default: Date.now},
-        message: { type: String, required: true}
+        message: { type: String, minLength: 2, required: true}
     }
 )
 
 MessageSchema.virtual("url").get(function () {
-    return `board/post/${this._id}`
+    return `/board/post/${this._id}`
 })
 
 MessageSchema.virtual("timestamp_formatted").get( function () {

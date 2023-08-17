@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  if user
+    h5 Welcome back #{user.email}
+    button 
+      a(href="/log-out") Log out
+  else
+    form(action='/login' method='POST')
+      div.form-group
+        label(for='email') Email: 
+        input#email.form-control(type='email', placeholder='Email' name='email' autocomplete='email' required='true' )
+      div.form-group
+        label(for='password') Password: 
+        input#password.form-control(type='password', placeholder='Password' name='password' autocomplete="password" required='true' )
+      button.btn.btn-primary(type='submit') Login
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
