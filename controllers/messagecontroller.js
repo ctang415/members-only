@@ -1,22 +1,22 @@
-/*
+
 const User = require('../models/user')
 const Message = require('../models/message')
 const asyncHandler = require('express-async-handler')
 const { body, validationResult } = require("express-validator");
 
 exports.message_list = asyncHandler ( async (req, res, next) => {
-    const allMessages = await Message.find({}).populate('user').exec()
-    res.render('post-list', {title: "Board", post_list: allMessages})
+    const allMessages = await Message.find({}).populate('poster').exec()
+    res.render('message-list', {title: "Board", post_list: allMessages})
 })
 
 exports.message_detail = asyncHandler( async (req, res, next) => {
-    const message = await Message.findById(req.params.id).populate('user').exec()
+    const message = await Message.findById(req.params.id).populate('poster').exec()
     if (message === null) {
         const err = new Error ('Post not found')
         err.status = 404
         return next(err)
     }
-    res.render('post-detail', {title: message.title, post: message})
+    res.render('message-detail', {title: message.title, post: message})
 })
 
 exports.message_create_get = asyncHandler ( async (req, res, next) => {
@@ -29,13 +29,20 @@ exports.message_create_post = [
     asyncHandler (async (req, res, next) => {
         const errors = validationResult(req)
         const message = new Message ( {
-            poster: 
+            poster: req.user._id,
             title: req.body.title,
             message: req.body.message
         })
+        if (!errors.isEmpty()) {
+            res.render('message-form', {title: 'Create a post', message: message, errors: errors.array()})
+            return
+        } else {
+            await message.save()
+            res.redirect(message.url)
+        }
     })
 ]
-
+/*
 exports.message_delete_get
 
 exports.message_delete_post

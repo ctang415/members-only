@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+
+  ul(style='list-style: none; display: flex; flex-direction: column; gap: 3em')
+    each post in post_list
+      li(style='display: flex; flex-direction: column; border: 1px solid black; padding: 1em 3em; min-width: 50vw;')
+        a(style='font-size: 3vh; text-decoration: none; color: black; font-weight: bold; text-decoration: underline' href=`${post.url}`) #{post.title}
+        if user 
+            if user.admin || user.email == post.poster.email
+                div
+                    p Posted by: <a style='text-decoration: none; color: black; font-weight: bold' href=post.poster.url> #{post.poster.email}</a> on <b>#{post.timestamp_formatted}</b>
+                    p #{post.message}
+            else
+                p  #{post.message}
+        else
+            p  #{post.message}
+
+    else
+      li There are no posts.

@@ -2,20 +2,40 @@ extends layout
 
 block content
 
-  h1 #{user.email}
-  div
-    p <strong>Name</strong> : #{user.fullname}
-    p <strong>Account Created</strong>: #{user.creation_formatted}
-    p <strong>Membership</strong>: #{user.membership_status}
+  h1 #{a_user.email}
+  div(style='display: flex; flex-direction: column; justify-content: center')
+    p <strong>Name</strong> : #{a_user.fullname}
+    p <strong>Account Created</strong>: #{a_user.creation_formatted}
+    p <strong>Membership</strong>: #{a_user.membership_status}
+        
+    if user    
+        if a_user.email == user.email
+            div(style='display: flex; justify-content: center')
+                button
+                    a(href=`${a_user.url}/update` style='text-decoration: none; color: black') Update information
+    else
+       
+    if user
+        if (user.email == a_user.email && user.admin)
+            div(style='display: flex; justify-content: center')
+                button
+                    a(href=`${a_user.url}/delete` style='text-decoration: none; color: black') Delete account
+    else
 
   div
     h4 Posts
   div
     dl
-      each post in user_posts
-        dt
-          a(href=post.url) #{post.title}
-        dd #{post.message}
-
-      else
-        p This user has no posts.
+    if user
+        if user.membership || user.email == a_user.email
+            if user_posts.length
+                each post in user_posts
+                    dt(style='display: flex;')
+                    a(style='font-weight: bold; text-decoration: none' href=post.url) #{post.title}
+                    p Posted on: #{post.timestamp_formatted}
+            else 
+                p This user has no posts.
+        else
+            p Must be a verified member to see this user's posts
+    else
+        p Please log in to view posts

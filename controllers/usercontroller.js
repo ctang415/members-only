@@ -12,14 +12,14 @@ exports.user_list = asyncHandler ( async (req, res, next) => {
 exports.user_detail = asyncHandler ( async (req, res, next) => {
     const [user, postsByUser] = await Promise.all ([
         User.findById(req.params.id).exec(),
-        Message.find({email : req.params.id}, "messages").exec()
+        Message.find({poster : req.params.id}, "title timestamp message").exec()
     ])
     if (user === null) {
         const err = new Error('User does not exist')
         err.status = 404;
         return next(err)
     }
-    res.render('user-detail', {title: "Profile", user: user, user_posts: postsByUser})
+    res.render('user-detail', {title: "Profile", a_user: user, user_posts: postsByUser})
 })
 
 exports.user_create_get = asyncHandler ( async (req, res, next) => { 
@@ -64,7 +64,7 @@ exports.user_create_post = [
                 admin: req.body.admin,
             })
             if (!errors.isEmpty()) {
-                res.render('sign-up-form', {title: "Create a new user", user: user, errors: errors.array() })
+                res.render('sign-up-form', {title: "Create a new user", a_user: user, errors: errors.array() })
                 return
             } else {
             await user.save()
@@ -85,7 +85,7 @@ exports.user_delete_get = asyncHandler ( async (req, res, next) => {
     if (user === null) {
         res.redirect('/board/users')
     }
-    res.render('user-delete', {title: 'Delete a user', user:user, post_list: allPostsByUser})
+    res.render('user-delete', {title: 'Delete a user', a_user:user, post_list: allPostsByUser})
 })
 
 exports.user_delete_post = asyncHandler ( async (req, res, next) => {
@@ -94,7 +94,7 @@ exports.user_delete_post = asyncHandler ( async (req, res, next) => {
         Message.find({user: req.params.id}).exec()
     ])
     if (allPostsByUser.length > 0) {
-        res.render('user-delete', { title: "Delete a user", user:user, post_list: allPostsByUser})
+        res.render('user-delete', { title: "Delete a user", a_user: user, post_list: allPostsByUser})
     } else {
         await User.findByIdAndRemove(req.body.userid)
         res.redirect('/board/users')
@@ -104,7 +104,7 @@ exports.user_delete_post = asyncHandler ( async (req, res, next) => {
 exports.user_update_get = asyncHandler ( async (req, res, next ) => {
     const [ user, allPostsByUser] = await Promise.all(
         [
-            User.findById(req.params.id).populate('message').exec(),
+            User.findById(req.params.id).populate('messages').exec(),
             Message.find({email: req.params.id}).exec()
         ]
     )
@@ -113,7 +113,7 @@ exports.user_update_get = asyncHandler ( async (req, res, next ) => {
         err.status = 404
         return next(err)
     }
-    res.render('sign-up-form', {title: "Update user profile", user:user, post_list: allPostsByUser})
+    res.render('sign-up-form', {title: "Update user profile", a_user: user, post_list: allPostsByUser})
 })
 
 exports.user_update_post = [
@@ -136,7 +136,7 @@ exports.user_update_post = [
                 _id: req.params.id
             })
             if (!errors.isEmpty()) {
-                res.render('sign-up-form', {title: "Update profile information", user: user, errors: errors.array() })
+                res.render('sign-up-form', {title: "Update profile information", a_user: user, errors: errors.array() })
                 return
             } else {
                 const updatedUser = await User.findByIdAndUpdate(req.params.id, user, {})

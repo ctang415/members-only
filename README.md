@@ -1,1 +1,3 @@
 # members-only
+
+Funny enough, I think the most difficult part of this project for me was making sure the middleware functions were arranged in the right order and place. I had so many issues with passport that were resolved simply by moving the code around in the app file. If there's one thing I learned from this project, it's that I definitely should go over each piece of middleware and understand why it needs to be initialized in the order that it's being placed in. I spent a lot of time mulling over what was wrong with my code when the problem was really the fact that I didn't initialize the function in the right place.

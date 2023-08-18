@@ -1,0 +1,33 @@
+extends layout
+
+block content
+
+  h1 #{post.title}
+  div(style='display: flex; flex-direction: column; justify-content: center')
+    if user
+        if user.membership || user.email == a_user.email
+            a(style='text-decoration: none' href=post.poster.url) <strong>Poster</strong>: #{post.poster}
+            p <strong>Posted on</strong>: #{post.timestamp_formatted}
+        else
+            p <strong>Poster</strong>: Hidden
+            p <strong>Posted on</strong>: Hidden
+    else
+        p <strong>Poster</strong>: Hidden
+        p <strong>Posted on</strong>: Hidden
+
+    p #{post.message}
+        
+    if user    
+        if a_user.email == user.email
+            div(style='display: flex; justify-content: center')
+                button
+                    a(href=`${a_user.url}/update` style='text-decoration: none; color: black') Update post
+    else
+       
+    if user
+        if (user.email == a_user.email && user.admin)
+            div(style='display: flex; justify-content: center')
+                button
+                    a(href=`${post.url}/delete` style='text-decoration: none; color: black') Delete post
+    else
+

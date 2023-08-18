@@ -13,7 +13,7 @@ const MessageSchema = new Schema (
 )
 
 MessageSchema.virtual("url").get(function () {
-    return `/board/post/${this._id}`
+    return `/board/message/${this._id}`
 })
 
 MessageSchema.virtual("timestamp_formatted").get( function () {

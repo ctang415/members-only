@@ -3,5 +3,23 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    nav(style='background-color: grey; width: 100%; padding: 2.2em')
+      if user
+        div(style='display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 1em')
+          h4(style='padding: 0em; margin: 0em;') Hello #{user.email}!
+          div(style='display: flex; gap: 1em' )
+            button 
+              a(href='/board/message/create' style='text-decoration: none; color: black') New Post
+            button
+              a(href="/log-out" style='text-decoration: none; color: black') Log out
+      else
+        form(style='display: flex; justify-content: center; gap: 1em;' action='/login' method='POST')
+          div.form-group
+            label(for='email') <strong>Email:</strong> 
+            input#email.form-control(type='email', placeholder='Email' name='email' required='true' )
+          div.form-group
+            label(for='password') <strong>Password:</strong> 
+            input#password.form-control(type='password', placeholder='Password' name='password' required='true' )
+          button.btn.btn-primary(type='submit') Login
   body
     block content

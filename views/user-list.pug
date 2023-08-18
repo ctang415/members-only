@@ -6,7 +6,7 @@ block content
   ul
     each user in user_list
       li
-        a(href=user.url) #{user.email}
+        a(href=`${user.url}`) #{user.email}
         |  #{user.creation_formatted}
 
     else
