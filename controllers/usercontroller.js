@@ -149,3 +149,26 @@ exports.user_update_post = [
 }) 
 ]
 
+exports.user_membership_get = asyncHandler( async (req, res, next) => {
+    res.render('secret-code', {title: "Become a member"})
+})
+
+exports.user_membership_post = [
+    body('code').trim().isLength({min: 1}).escape(),
+    asyncHandler( async ( req, res, next ) => {
+        const errors = validationResult(req)
+        const user = new User ({
+            membership: true,
+            _id: req.user.id
+        })
+        if(!errors.isEmpty()) {
+            res.render('secret-code', {title: "Become a member", errors: errors.array()})
+            return
+        } else if (req.body.code !== `${process.env.secretcode}`) { 
+            res.render('secret-code', {title: "Become a member"})
+        } else {
+        const updatedUser = await User.findByIdAndUpdate(req.user.id, user, {} )
+        res.redirect(updatedUser.url)
+        }
+    })
+]

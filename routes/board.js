@@ -37,5 +37,8 @@ router.get('/message/:id/update', message_controller.message_update_get)
 
 router.post('/message/:id/update', message_controller.message_update_post)
 
+router.get('/secret', user_controller.user_membership_get)
+
+router.post('/secret', user_controller.user_membership_post)
 
 module.exports = router;
