@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 #{post.title}
+  div
+    p #{post.message}
+    p Do you really want to delete this Post?
+
+    form(style='display: flex; justify-content: center' method='POST' action='')
+        div.form-group            
+            input#postid.form-control(type='hidden',name='postid', required='true', value=post._id )
+        button.btn.btn-primary(type='submit') Delete

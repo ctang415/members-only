@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1 #{title}
+  div(style='display: flex; flex-direction: column; align-items: center')
+
+    if post_list.length
+        
+        p #[strong Delete the following posts before attempting to delete this account.]
+
+        h4 Posts
+        dl
+            each post in post_list
+                div(style='display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid grey; border-radius: 1em; padding: 0.5em; min-width: 30vw; min-height: 15vh')
+                    
+                    a(href=post.url) ID: #{post._id}
+                    p  Title: #{post.title}
+                    p  Message: #{post.message}
+                    p  Date: #{post.timestamp_formatted}
+    
+    else
+        p User: #{a_user.email}
+        p Do you really want to delete this User?
+
+        form(style='display: flex; justify-content: center' method='POST' action='')
+            div.form-group            
+                input#a_userid.form-control(type='hidden',name='a_userid', required='true', value=a_user._id )
+            button.btn.btn-primary(type='submit') Delete

@@ -3,24 +3,24 @@ extends layout
 block content
   h1= title
 
-  form(method='POST' action='')
+  form(style='display: flex; flex-direction: column; gap: 1em; padding: 1em' method='POST' action='')
     div.form-group
-      label(for='email') Email:
-      input#email.form-control(type='email', placeholder='Email' name='email' required='true' value=(undefined===user ? '' : user.email) )
+      label(for='email') Email: 
+      input#email.form-control(type='email', placeholder='Email' name='email' required='true' value=(undefined===a_user ? '' : a_user.email) )
     div.form-group
-      label(for='first_name') First Name:
-      input#firstname.form-control(type='text', placeholder='First name' name='first_name' required='true' value=(undefined===user ? '' : user.first_name) )
+      label(for='first_name') First Name: 
+      input#firstname.form-control(type='text', placeholder='First name' name='first_name' required='true' value=(undefined===a_user ? '' : a_user.first_name) )
     div.form-group
-      label(for='last_name') Last Name:
-      input#lastname.form-control(type='text', placeholder='Last name' name='last_name' required='true' value=(undefined===user ? '' : user.last_name) )
+      label(for='last_name') Last Name: 
+      input#lastname.form-control(type='text', placeholder='Last name' name='last_name' required='true' value=(undefined===a_user ? '' : a_user.last_name) )
     div.form-group
-      label(for='password') Password:
-      input#password.form-control(type='password', placeholder='Password' name='password' required='true' value=(undefined===user ? '' : user.password) )
+      label(for='password') Password: 
+      input#password.form-control(type='password', placeholder='Password' name='password' required='true' value=(undefined===a_user ? '' : a_user.password) )
     div.form-group
-      label(for='passwordConfirmation') Confirm Password:
-      input#passwordConfirmation.form-control(type='password', placeholder='Password' name='passwordConfirmation' required='true' value=(undefined===user ? '' : user.password) )
+      label(for='passwordConfirmation') Confirm Password: 
+      input#passwordConfirmation.form-control(type='password', placeholder='Password' name='passwordConfirmation' required='true' value=(undefined===a_user ? '' : a_user.password) )
     div.form-group
-      label(for='admin') Admin:
+      label(for='admin') Admin: 
       input.checkbox-input(type='checkbox', name='admin', id="admin")
     button.btn.btn-primary(type='submit') Submit
 

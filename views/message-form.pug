@@ -6,10 +6,13 @@ block content
   form(style='display: flex; flex-direction: column; gap: 2em; max-width:50vw' method='POST' action='')
     div.form-group(style='display: flex; flex-direction: column')
       label(for='title') Title:
-      input#title.form-control(type='text', placeholder='Title' name='title' required='true' value=(undefined===message ? '' : message.title) )
+      input#title.form-control(type='text', placeholder='Title' name='title' required='true' value=(undefined===post ? '' : post.title) )
     div.form-group(style='display: flex; flex-direction: column')
       label(for='message') Message:
-      textarea(style='resize: none' cols="60" rows="15" placeholder='Enter your message here' name='message' required='true' value=(undefined === message ? '' : message.message))
+      if post === undefined 
+        textarea#message.form-control(cols="50" rows="10" placeholder='Enter your message here' name='message' required='true')
+      else
+        textarea#message.form-control(cols="50" rows="10" placeholder='Enter your message here' name='message' required='true') #{post.message}
     div(style='display: flex; justify-content: center')
       button.btn.btn-primary(type='submit') Submit
 

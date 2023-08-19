@@ -68,7 +68,7 @@ exports.user_create_post = [
                 return
             } else {
             await user.save()
-            res.redirect('/board')
+            res.redirect(user.url)
             }
             })
         } catch (err) {
@@ -80,7 +80,7 @@ exports.user_create_post = [
 exports.user_delete_get = asyncHandler ( async (req, res, next) => {
     const [ user, allPostsByUser] = await Promise.all ( [
         User.findById(req.params.id).exec(),
-        Message.find({user: req.params.id}).exec()
+        Message.find({poster: req.params.id}).populate('poster').exec()
     ])
     if (user === null) {
         res.redirect('/board/users')
@@ -91,12 +91,12 @@ exports.user_delete_get = asyncHandler ( async (req, res, next) => {
 exports.user_delete_post = asyncHandler ( async (req, res, next) => {
     const [ user, allPostsByUser] = await Promise.all ( [
         User.findById(req.params.id).exec(),
-        Message.find({user: req.params.id}).exec()
+        Message.find({poster: req.params.id}).populate('poster').exec()
     ])
     if (allPostsByUser.length > 0) {
         res.render('user-delete', { title: "Delete a user", a_user: user, post_list: allPostsByUser})
     } else {
-        await User.findByIdAndRemove(req.body.userid)
+        await User.findByIdAndRemove(req.body.a_userid)
         res.redirect('/board/users')
     }
 })
@@ -105,7 +105,7 @@ exports.user_update_get = asyncHandler ( async (req, res, next ) => {
     const [ user, allPostsByUser] = await Promise.all(
         [
             User.findById(req.params.id).populate('messages').exec(),
-            Message.find({email: req.params.id}).exec()
+            Message.find({poster: req.params.id}).exec()
         ]
     )
     if (user === null) {
