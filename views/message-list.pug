@@ -3,6 +3,9 @@ extends layout
 block content
   h1= title
 
+  button 
+    a(href="/board/users" style='text-decoration: none; color: black') All users 
+
   ul(style='list-style: none; display: flex; flex-direction: column; gap: 3em')
     each post in post_list
       li(style='display: flex; flex-direction: column; border: 1px solid black; padding: 1em 3em; min-width: 50vw; border-radius: 1em')

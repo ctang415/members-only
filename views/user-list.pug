@@ -3,7 +3,7 @@ extends layout
 block content
   h1= title
 
-  ul
+  ul(style='display: flex; gap: 1.5em; flex-direction: column')
     each user in user_list
       li
         a(href=`${user.url}`) #{user.email}

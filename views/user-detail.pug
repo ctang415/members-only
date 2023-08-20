@@ -7,9 +7,11 @@ block content
     p <strong>Name</strong> : #{a_user.fullname}
     p <strong>Account Created</strong>: #{a_user.creation_formatted}
     p <strong>Membership</strong>: #{a_user.membership_status}
-    if !a_user.membership
-        button 
-            a(href="/board/secret" style='text-decoration: none; color: black') Click to apply for membership
+
+    if user
+        if !a_user.membership && a_user.email == user.email
+            button 
+                a(href="/board/secret" style='text-decoration: none; color: black') Click to apply for membership
         
     if user
         if a_user.email == user.email
